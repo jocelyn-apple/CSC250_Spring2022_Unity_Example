@@ -11,11 +11,12 @@ public class roomTriggerScript : MonoBehaviour
     {
         this.thisRoom = new Room();
         CORE.addRoom(this.thisRoom);
+        CORE.addRoomTrigger(this.gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag.Equals("Player"))
+        if (other.gameObject.tag.Equals("Player"))
         {
             this.thisRoom.setPlayer(CORE.getPlayer()); //lets new room know about the player
             print("Player now in room: " + this);
@@ -28,9 +29,21 @@ public class roomTriggerScript : MonoBehaviour
         
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag.Equals("Player"))
+        {
+            CORE.destroyRoom(this.gameObject);
+        }
+        else if (other.gameObject.tag.Equals("enemy"))
+        {
+            CORE.destroyRoom(this.gameObject);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
